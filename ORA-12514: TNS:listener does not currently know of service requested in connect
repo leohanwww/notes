@@ -1,0 +1,32 @@
+这个错误是因为Listener出了问题，请检查一下你的listener.ora文件，看下是否存在如下配置：
+
+SID_LIST_LISTENER =
+  (SID_LIST =
+    (SID_DESC =
+      (SID_NAME = PLSExtProc)
+      (ORACLE_HOME = E:/oracle/product/10.2.0/db_1)
+      (PROGRAM = extproc)
+    )
+)
+
+       如果说是这样，那么请将一段改成
+
+SID_LIST_LISTENER =
+ (SID_LIST =
+ (SID_DESC =
+  (SID_NAME = PLSExtProc)
+  (ORACLE_HOME = E:/oracle/product/10.2.0/db_1)
+  (PROGRAM = extproc)
+  ) (SID_DESC =
+     (GLOBAL_DBNAME = ORCL)
+     (ORACLE_HOME = E:/oracle/product/10.2.0/db_1)
+     (SID_NAME = ORCL)
+  )
+)
+         这样以后，关掉Service和LISTENER。再启动Service和LISTENER，这样应该就可以了，注意顺序。
+
+          查了一下，网上是说，加上了面一段东西，意思是把LISTENER服务主动注册到进程监视器(pmon)中去。所以，但你启动了Serivce后，启动LISTENER的时候，会主动去注册到进程监视器(pmon)中去。所以不会有什么问题。但是反过却不行。
+
+         如果说没有添加那一段，情况正好相反，是由实例的pmon进程在LISTENER中注册服务，LISTENER为被动注册。所以需要先起LISTENER才可以。
+
+        总结一下，如果说你不加那段东西，那么就应该先起LISTENER，如果说你加了那段东西，就应该先起Serivce。
