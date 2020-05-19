@@ -1,0 +1,9 @@
+在jsp页导入标签库,在使用el表达式${name},即可得到username
+
+头部写这个,写在声明部分
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<security:authentication property="principal.username" var="name"></security:authentication>
+<header>....
+
+内容里面取值
+<div>${name}</div>
