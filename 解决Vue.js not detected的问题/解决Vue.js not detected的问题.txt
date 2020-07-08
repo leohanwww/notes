@@ -1,0 +1,5 @@
+win10 中谷歌浏览器安装的插件位置
+
+C:\Users\cc05\AppData\Local\Google\Chrome\User Data\Default\Extensions
+
+把json内的false改为true
