@@ -1,0 +1,96 @@
+Windows下Nginx的启动、停止等命令
+
+在Windows下使用Nginx，我们需要掌握一些基本的操作命令，比如：启动、停止Nginx服务，重新载入Nginx等，下面我就进行一些简单的介绍。
+
+假设你安装在 C:\server\nginx-1.0.2目录下，
+
+cmd命令进入安装文件；
+
+1、启动：
+
+C:\server\nginx-1.0.2>start nginx
+
+或
+
+C:\server\nginx-1.0.2>nginx.exe
+
+注：建议使用第一种，第二种会使你的cmd窗口一直处于执行中，不能进行其他命令操作。
+
+2、停止：
+
+C:\server\nginx-1.0.2>nginx.exe -s stop
+
+或
+
+C:\server\nginx-1.0.2>nginx.exe -s quit
+
+注：stop是快速停止nginx，可能并不保存相关信息；quit是完整有序的停止nginx，并保存相关信息。
+
+3、重新载入Nginx：
+
+C:\server\nginx-1.0.2>nginx.exe -s reload
+
+当配置信息修改，需要重新载入这些配置时使用此命令。
+
+4、重新打开日志文件：
+
+C:\server\nginx-1.0.2>nginx.exe -s reopen
+
+5、查看Nginx版本：
+
+C:\server\nginx-1.0.2>nginx -v
+
+
+网上搜索安装nginx的方法，按照步骤在 http://nginx.org/en/download.html 下载了安装包，并配置了conf/nginx.conf，将nginx的根目录添加进了环境变量path中；
+打开命令行，进入 'D:\nginx-1.15.3\conf' 目录，执行如下命令验证配置文件的正确性：
+
+nginx -t -c nginx.conf
+
+结果提示错误：
+
+nginx: the configuration file 'D:\nginx-1.15.3\conf/nginx.conf syntax is ok
+nginx: [emerg] CreateDirectory() "'D:\nginx-1.15.3\conf/temp/client_body_temp" failed (3: The system cannot find the path specified)
+nginx: configuration file 'D:\nginx-1.15.3\conf/nginx.conf test failed
+并且运行如下命令：
+
+nginx -t
+
+也是出现错误提示：
+
+nginx: [emerg] CreateFile() "'D:\nginx-1.15.3\conf/conf/nginx.conf" failed (3: The system cannot find the path specified)
+nginx: configuration file 'D:\nginx-1.15.3\conf/conf/nginx.conf test failed
+百思不得其解，后来在命令行上退出 conf 目录，回到根目录 'D:\nginx-1.15.3' ，如下运行命令：
+
+D:\nginx-1.15.3> nginx -t -c conf\nginx.conf
+
+则显示配置文件正确：
+
+nginx: the configuration file D:\nginx-1.15.3/conf\nginx.conf syntax is ok
+nginx: configuration file D:\nginx-1.15.3/conf\nginx.conf test is successful
+并且，运行命令：
+
+D:\nginx-1.15.3> nginx -t
+
+显示nginx安装正常
+
+nginx: the configuration file D:\nginx-1.15.3/conf/nginx.conf syntax is ok
+nginx: configuration file D:\nginx-1.15.3/conf/nginx.conf test is successful
+附 nginx 常用命令：
+验证配置是否正确: nginx -t
+
+查看Nginx的版本号：nginx -V
+
+启动Nginx：start nginx
+
+快速停止或关闭Nginx：nginx -s stop
+
+正常停止或关闭Nginx：nginx -s quit
+
+配置文件修改重装载命令：nginx -s reload
+
+========================================================================
+
+在centos7中
+whereis nginx找到位置
+cd
+./nginx启动
